@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 
-@section('title', 'Create Project')
+@section('title', 'Edit Project' . $project->title)
 
 @section('content')
 
-<section>
+<section id="edit-project">
     <h2>Edit project: {{ $project->title }}</h2>
     <form action="{{ route('admin.projects.show', $project->slug) }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -37,7 +37,32 @@
             @enderror
           </div>
           <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <label for="category_id" class="form-label">Select Category</label>
+                <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
+                    <option value="">Select Category</option>
+                  @foreach ($categories as $category)
+                      <option value="{{$category->id}}" {{ $category->id == $project->category_id ? 'selected' : '' }}>{{$category->name}}</option>
+                  @endforeach
+                </select>
+                @error('category_id')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+              <div class="form-group mb-3">
+                <p>Select one or more Technologies:</p>
+                @foreach ($technologies as $technology)
+                    <div>
+                        <input type="checkbox" name="technologies[]" value="{{ $technology->id }}" class="form-check-input"
+                            {{ $project->technologies->contains($technology->id) ? 'checked' : '' }}>
+                        <label for="" class="form-check-label">{{ $technology->name }}</label>
+                    </div>
+                @endforeach
+                @error('projects')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+          <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Edit</button>
                 <button type="reset" class="btn btn-danger">Cancel</button>
             </div>
     </form>
