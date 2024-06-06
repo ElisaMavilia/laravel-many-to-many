@@ -33,4 +33,9 @@ class Project extends Model
     {
         return $this->belongsTo(Category::class); //questo metodo serve per mappare la relazione inversa (molti a uno): rappresenta la relazione di dipendenza verso il Model principale (Project)
     }
+
+    public function technologies()
+    {
+        return $this->belongsToMany(Technology::class);
+    }
 }
