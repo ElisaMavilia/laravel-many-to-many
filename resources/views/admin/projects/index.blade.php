@@ -49,5 +49,7 @@
           </tbody>
       </table>
 </section>
+<div class="container">
 {{ $projects->links('vendor.pagination.bootstrap-5') }}
+</div>
 @endsection
